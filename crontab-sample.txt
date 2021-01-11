@@ -1,0 +1,2 @@
+# Auto sync ip addresses of Arvan CDN and reload nginx
+30 2 * * * /opt/scripts/arvan-nginx-real-ip.sh >/dev/null 2>&1

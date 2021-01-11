@@ -1,26 +1,38 @@
-# ar-ngxrealip
-ArvanCloud User Real IP in Nginx
+# Get Real Visitor IP Address (Restoring Visitor IPs) with Nginx and Arvan Cloud CDN
+This project aims to modify your nginx configuration to let you get the real ip address of your visitors for your web applications that are behind Arvan Cloud's reverse proxy network. Bash script can be scheduled to create an automated up-to-date Arvan Cloud ip list file.
 
-# Brief
-Show Real IPs instead of Arvan IPs in Nginx
+To provide the client (visitor) IP address for every request to the origin, Arvan Cloud adds the "ar-real-ip" header. We will catch the header and get the real ip address of the visitor.
 
-## Input
-ArvanCloud IP list
+## Nginx Configuration
+Open "/etc/nginx/nginx.conf" file with your favorite text editor and just add the following lines to your nginx.conf inside http{....} block.
 
-## Capabalities
-* show user real ip
+```nginx
+include /etc/nginx/arvan;
+```
 
-## Useful Link
-[ArvanCloud CDN Edge Servers IPs](https://www.arvancloud.com/fa/ips.txt)
-[CloudFlare Similar tool](https://github.com/ergin/nginx-cloudflare-real-ip)
+The bash script may run manually or can be scheduled to refresh the ip list of Arvan Cloud automatically.
 
-## Terms and Conditions
-* All projects received to ArvanCloud will be reviewed, and the price will be paid to the first approved project.
-* All projects have to have test and execution document.
-* The project doer has to solve issues and apply required changes for 6 months after approval of the project.
-* General changes or changing programming language in each project has to be approved by ArvanCloud.
-* In case more than one project is approved by ArvanCLoud, the project fee will be equally divided between winning projects.
-* In the evaluation and code reviews stages of a project, no new request for the same project will be accepted. In case the reviewed project fails to pass the quality assessments, the project will be reactivated.
-* If projects require any update or edit, merge requests will be accepted in GitHub after reassessment and reapproval.
-* Approved projects will be forked in GitHub, and ArvanCloud will star them.
-* GitHub name and address of the approved project doer will be published alongside the project. 
+## Output
+If the response is received successfully, your "/etc/nginx/arvan" file may look like as below
+
+```nginx
+#Arvan Cloud CDN ip addresses
+
+# - IPv4
+set_real_ip_from 92.114.16.80/28;
+set_real_ip_from 185.112.35.144/28;
+set_real_ip_from 185.49.87.120/29;
+...
+set_real_ip_from 185.105.101.200/29;
+real_ip_header ar-real-ip;
+
+```
+
+## Crontab
+Change the location of "/opt/scripts/arvan-real-ip.sh" anywhere you want. 
+Also change the path to your script in crontab accordingly. 
+```sh
+# Auto sync ip addresses of Cloudflare and reload nginx
+30 2 * * * /opt/scripts/arvan-real-ip.sh >/dev/null 2>&1
+```
+
