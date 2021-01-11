@@ -1,0 +1,2 @@
+# Auto sync ip addresses of ArvanCloud and reload nginx
+30 2 * * * /opt/scripts/arvancloud-sync-ips.sh >/dev/null 2>&1
