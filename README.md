@@ -4,23 +4,31 @@ ArvanCloud User Real IP in Nginx
 # Brief
 Show Real IPs instead of Arvan IPs in Nginx
 
-## Input
-ArvanCloud IP list
+## Nginx Configuration
+In your nginx configuration file add the Following line:
+```
+include /etc/nginx/arvan_white_list.conf
+```
+# Output 
+Your file will be similar as below
 
-## Capabalities
-* show user real ip
+```
+set_real_ip_from 92.114.16.80/28 ;
+set_real_ip_from 185.112.35.144/28 ;
+set_real_ip_from 185.49.87.120/29 ;
+set_real_ip_from 185.20.160.248/29 ;
+set_real_ip_from 5.160.139.200/29 ;
+set_real_ip_from 46.224.2.32/29 ;
+set_real_ip_from 2.146.0.0/28 ;
+set_real_ip_from 79.175.138.128/29 ;
+set_real_ip_from 185.143.232.0/22 ;
+set_real_ip_from 89.187.169.88/29 ;
+set_real_ip_from 89.187.178.96/29 ;
+set_real_ip_from 185.152.67.56/29 ;
+```
 
-## Useful Link
-[ArvanCloud CDN Edge Servers IPs](https://www.arvancloud.com/fa/ips.txt)
-[CloudFlare Similar tool](https://github.com/ergin/nginx-cloudflare-real-ip)
-
-## Terms and Conditions
-* All projects received to ArvanCloud will be reviewed, and the price will be paid to the first approved project.
-* All projects have to have test and execution document.
-* The project doer has to solve issues and apply required changes for 6 months after approval of the project.
-* General changes or changing programming language in each project has to be approved by ArvanCloud.
-* In case more than one project is approved by ArvanCLoud, the project fee will be equally divided between winning projects.
-* In the evaluation and code reviews stages of a project, no new request for the same project will be accepted. In case the reviewed project fails to pass the quality assessments, the project will be reactivated.
-* If projects require any update or edit, merge requests will be accepted in GitHub after reassessment and reapproval.
-* Approved projects will be forked in GitHub, and ArvanCloud will star them.
-* GitHub name and address of the approved project doer will be published alongside the project. 
+# Auto Renewal
+Add the following line into your crontab
+```
+0 0 * * * /{path_to_getip_script}/getip.sh >/dev/null 2>&1
+```
