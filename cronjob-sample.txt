@@ -1,0 +1,2 @@
+# Auto sync ip addresses of Cloudflare and reload nginx
+0 2,14 * * * /path/to/arvancloud-sync-ip-list.sh >/dev/null 2>&1
