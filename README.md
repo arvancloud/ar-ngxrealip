@@ -72,9 +72,8 @@ real_ip_header AR_REAL_IP;
 
 ## Crontab
 Define a cronjob for the "/path/to/arvancloud-sync-ip-list.sh" script. ArvanCloud IP addresses are automatically refreshed at 2 AM & 14 PM every day, and nginx will be realoded when synchronization is completed.
-
-# Auto sync ip addresses of Cloudflare and reload nginx
 ```sh
+# Auto sync ip addresses of Cloudflare and reload nginx
 0 2,14 * * * /path/to/arvancloud-sync-ip-list.sh >/dev/null 2>&1
 ```
 
