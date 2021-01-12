@@ -1,21 +1,22 @@
 # ar-ngxrealip
-This script let you get the real ip address of your visitors for your web applications that behind of ArvanCloud's CDN.
-Bash script can be scheduled to create an automated up-to-date ArvanCloud ip list file.
+This script let you get the real IP address of your visitors for your web applications that behind of [ArvanCloud](https://www.arvancloud.com)'s CDN.
+Bash script can be scheduled to create an automated up-to-date ArvanCloud IP list file.
 
-For every request to the origin, ArvanCloud adds the "AR_REAL_IP" header to provide the real client IP address. This script catch the header and get the real ip address of the visitor in the request header with real_ip_header directive.
+For every request to the origin, ArvanCloud adds the [**AR_REAL_IP**](https://www.arvancloud.com/help/fa/article/360034320513-%DA%86%D9%87-%D8%B7%D9%88%D8%B1-%D9%85%DB%8C%20%D8%AA%D9%88%D8%A7%D9%86-%D8%A7%D8%B2-IP-%D9%88%D8%A7%D9%82%D8%B9%DB%8C-%DA%A9%D8%A7%D8%B1%D8%A8%D8%B1-%D9%86%D9%87%D8%A7%DB%8C%DB%8C-%D8%A2%DA%AF%D8%A7%D9%87-%D8%B4%D8%AF) header to provide the real client IP address. This script catch the header and get the real ip address of the visitor in the request header with real_ip_header directive.
 
 ## Prerequisites
 You need the [Nginx installed](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#) (using official packages or binaries) with [ngx_http_realip_module](https://nginx.org/en/docs/http/ngx_http_realip_module.html) enabled.
+
 Also you can check this with `nginx -V` command.
 
 ## Usage
-All you need to have your real client IP addresses, is to include /etc/nginx/arvancloud inside the http{....} block of your Nginx configuration file. 
+All you need to have your real client IP addresses, is to `include /etc/nginx/arvancloud` inside the `http{....}` block of your Nginx configuration file. 
 Then run the script manually or make it automatic by defining a cronjob.
 
 ## Output
 Your "/etc/nginx/arvancloud" file may look like as below :
 
-```bash
+```sh
 92.114.16.80/28
 185.112.35.144/28
 185.49.87.120/29
@@ -66,6 +67,7 @@ real_ip_header AR_REAL_IP;
 
 
 ## Useful Link
+![ArvanCloud CDN](https://www.arvancloud.com/images/icons/logo-typo-fa.jpg "ArvanCloud")
 [ArvanCloud CDN Edge Servers IPs](https://www.arvancloud.com/fa/ips.txt)
 
 
@@ -73,9 +75,9 @@ real_ip_header AR_REAL_IP;
 Define a cronjob for the "/path/to/arvancloud-sync-ip-list.sh" script. ArvanCloud IP addresses are automatically refreshed at 2 AM & 14 PM every day, and nginx will be realoded when synchronization is completed.
 
 # Auto sync ip addresses of Cloudflare and reload nginx
-```bash
+```sh
 0 2,14 * * * /path/to/arvancloud-sync-ip-list.sh >/dev/null 2>&1
 ```
 
 ## License
-Apache 2.0 license
+[MIT license](https://github.com/ali-sefidmouy/ar-ngxrealip/blob/main/LICENSE)
