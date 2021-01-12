@@ -67,7 +67,6 @@ real_ip_header AR_REAL_IP;
 
 
 ## Useful Link
-![ArvanCloud CDN](https://www.arvancloud.com/images/icons/logo-typo-fa.jpg "ArvanCloud")
 [ArvanCloud CDN Edge Servers IPs](https://www.arvancloud.com/fa/ips.txt)
 
 
