@@ -1,26 +1,29 @@
 # ar-ngxrealip
-ArvanCloud User Real IP in Nginx
 
-# Brief
-Show Real IPs instead of Arvan IPs in Nginx
+This project modifies your Nginx configuration to let you get the real IP address of your visitors for your web applications behind Arvancloud's reverse proxy network.
 
-## Input
-ArvanCloud IP list
+Also, The bash script can be scheduled to create an automated up-to-date IP list file.
 
-## Capabalities
-* show user real ip
+#### How it works
 
-## Useful Link
-[ArvanCloud CDN Edge Servers IPs](https://www.arvancloud.com/fa/ips.txt)
-[CloudFlare Similar tool](https://github.com/ergin/nginx-cloudflare-real-ip)
+To provide the client IP address for every request to the origin, ArvanCloud adds the "AR-Real-IP" header. We will catch the header and get the real IP Address of the client.
 
-## Terms and Conditions
-* All projects received to ArvanCloud will be reviewed, and the price will be paid to the first approved project.
-* All projects have to have test and execution document.
-* The project doer has to solve issues and apply required changes for 6 months after approval of the project.
-* General changes or changing programming language in each project has to be approved by ArvanCloud.
-* In case more than one project is approved by ArvanCLoud, the project fee will be equally divided between winning projects.
-* In the evaluation and code reviews stages of a project, no new request for the same project will be accepted. In case the reviewed project fails to pass the quality assessments, the project will be reactivated.
-* If projects require any update or edit, merge requests will be accepted in GitHub after reassessment and reapproval.
-* Approved projects will be forked in GitHub, and ArvanCloud will star them.
-* GitHub name and address of the approved project doer will be published alongside the project. 
+## Requirements
+
+* Nginx with [ngx_http_realip_module](https://nginx.org/en/docs/http/ngx_http_realip_module.html) enabled
+* curl
+
+## How to use
+
+1. add below line to your Nginx configuration file  
+```include /etc/nginx/arvancloud_ips;```
+2. Run the script
+
+#### Auto-update
+
+You can add a cronjob to update the IPs list automatically.
+
+```sh
+# update the list every 6 hours
+0 */6 * * * /path/to/arvancloud-realip.sh >/dev/null 2>&1
+```
