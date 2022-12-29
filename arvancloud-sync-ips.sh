@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ARVANCLOUD_FILE_PATH=/etc/nginx/arvancloud
-ARVANCLOUD_CDN_IPS_TXT_URL="https://www.arvancloud.com/fa/ips.txt"
+ARVANCLOUD_CDN_IPS_TXT_URL="https://www.arvancloud.ir/fa/ips.txt"
 
 VALID_IP_OCTET_REGEX="(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
 IP_WITH_SUBNET_REGEX="^$VALID_IP_OCTET_REGEX\.$VALID_IP_OCTET_REGEX\.$VALID_IP_OCTET_REGEX\.$VALID_IP_OCTET_REGEX\/[0-9]+$"
