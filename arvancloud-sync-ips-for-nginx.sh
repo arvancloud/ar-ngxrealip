@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARVANCLOUD_FILE_PATH=/etc/nginx/arvancloud
+ARVANCLOUD_FILE_PATH=/etc/nginx/conf.d/arvancloud-set-real-ip.conf
 ARVANCLOUD_CDN_IPS_TXT_URL="https://www.arvancloud.ir/fa/ips.txt"
 
 VALID_IP_OCTET_REGEX="(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
@@ -13,7 +13,7 @@ then
   exit 1
 fi
 
-echo "#Arvan" > $ARVANCLOUD_FILE_PATH;
+echo "#ArvanCloud" > $ARVANCLOUD_FILE_PATH;
 echo "" >> $ARVANCLOUD_FILE_PATH;
 
 echo "# - IPv4" >> $ARVANCLOUD_FILE_PATH;
