@@ -1,66 +1,45 @@
-# Get Real Visitor IP Address (Restoring Visitor IPs) with Nginx and ArvanCloud
-This project aims to modify your nginx configuration to let you get the real ip address of your visitors for your web applications that behind of ArvanCloud's reverse proxy network. Bash script can be scheduled to create an automated up-to-date ArvanCloud ip list file.
+# ArvanCloud Real Visitor IP
 
-To provide the client (visitor) IP address for every request to the origin, ArvanCloud adds the "ar-real-ip" header. We will catch the header and get the real ip address of the visitor.
+![logo](.github/logo.svg)
+
+This project aims to modify your Nginx configuration to let you get the actual IP address of your visitors for your web applications that are behind of ArvanCloud’s reverse proxy network. You can schedule this bash script to create an automated up-to-date ArvanCloud IP list file.
+
+To provide the client (visitor) IP address for every request to the origin, ArvanCloud adds the “ar-real-ip” header. We will catch the header and get the actual IP address of the visitor.
 
 1. Create a bash script file in your desired location:
-```sh
-sudo nano /var/arvancloud-sync-ips-for-nginx.sh
-```
 
-2. Copy [arvancloud-sync-ips-for-nginx.sh](./arvancloud-sync-ips-for-nginx.sh)'s content and save the file:
-```sh
-#!/bin/bash
+   ```bash
+   sudo nano /var/arvancloud-sync-ips-for-nginx.sh
+   ```
 
-ARVANCLOUD_FILE_PATH=/etc/nginx/conf.d/arvancloud-set-real-ip.conf
-ARVANCLOUD_CDN_IPS_TXT_URL="https://www.arvancloud.ir/fa/ips.txt"
+2. Copy [arvancloud-sync-ips-for-nginx.sh](./arvancloud-sync-ips-for-nginx.sh)'s content and save the file.
 
-VALID_IP_OCTET_REGEX="(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
-IP_WITH_SUBNET_REGEX="^$VALID_IP_OCTET_REGEX\.$VALID_IP_OCTET_REGEX\.$VALID_IP_OCTET_REGEX\.$VALID_IP_OCTET_REGEX\/[0-9]+$"
-IP_ADDRS=$(curl -s -L $ARVANCLOUD_CDN_IPS_TXT_URL | grep -E -o "$IP_WITH_SUBNET_REGEX")
+3. Set the proper permission for the file so it can be executed:
 
-if [ -z "$IP_ADDRS" ];
-then
-  echo "Couldn't extract CDN any ip address from $ARVANCLOUD_CDN_IPS_TXT_URL"
-  exit 1
-fi
+   ```bash
+   sudo chmod 775 /var/arvancloud-sync-ips-for-nginx.sh
+   ```
 
-echo "#ArvanCloud" > $ARVANCLOUD_FILE_PATH;
-echo "" >> $ARVANCLOUD_FILE_PATH;
+4. Now you can run the script manually to create the Nginx config file:
 
-echo "# - IPv4" >> $ARVANCLOUD_FILE_PATH;
-for ip in $IP_ADDRS; do
-  echo "set_real_ip_from $ip;" >> $ARVANCLOUD_FILE_PATH;
-done
+   ```bash
+   sudo /var/arvancloud-sync-ips-for-nginx.sh
+   ```
 
-echo "" >> $ARVANCLOUD_FILE_PATH;
-echo "real_ip_header ar-real-ip;" >> $ARVANCLOUD_FILE_PATH;
+5. Or schedule a new cronjob to do it automatically at regular intervals (e.g: every day at 2:30 a.m.)
 
-#test configuration and reload nginx
-nginx -t && systemctl reload nginx
+   ```sh
+   sudo crontab -e
 
-```
-3. Set the proper permission for the file, so it can be executed:
-```sh
-sudo chmod 775 /var/arvancloud-sync-ips-for-nginx.sh
-```
-4. Now you can run the script manually to create the nginx config file:
-```sh
-sudo /var/arvancloud-sync-ips-for-nginx.sh
-```
+   # Auto sync IP addresses of ArvanCloud and reload the Nginx
+   30 2 * * * /var/arvancloud-sync-ips-for-nginx.sh >/dev/null 2>&1
+   ```
 
-5. Or schedule a new cronjob to do it automatically on a regular intervals (e.g: every day at 2:30 a.m.)
-```sh
-sudo crontab -e
-```
-```sh
-# Auto sync ip addresses of ArvanCloud and reload nginx
-30 2 * * * /var/arvancloud-sync-ips-for-nginx.sh >/dev/null 2>&1
-```
 ## Output
-Now if you check `/etc/nginx/conf.d` directory you should see a new file named `arvancloud-set-real-ip.conf` which will be included to your nginx configs automatically and sets the real ip address for upcoming requests.
-####
-The output should be like below:
+
+Now if you check `/etc/nginx/conf.d` directory you should see a new file named `arvancloud-set-real-ip.conf` which will be included in your Nginx configs automatically and sets the actual IP address for upcoming requests.
+
+The output should be like the below:
 
 ```nginx
 #ArvanCloud
